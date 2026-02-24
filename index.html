@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模速空间 · Modsu Space</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* 粒子背景效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(167, 119, 227, 0.15) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 头部区域 */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #667eea 0%, #a777e3 50%, #ff9a9e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .subtitle span {
+            color: #a777e3;
+            font-weight: 600;
+        }
+
+        /* 介绍卡片 */
+        .intro-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 50px;
+            text-align: center;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .intro-card p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .intro-card .highlight {
+            color: #ff9a9e;
+            font-weight: 600;
+        }
+
+        /* 站点网格 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+            animation-fill-mode: both;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:nth-child(1) { animation-delay: 0.6s; }
+        .card:nth-child(2) { animation-delay: 0.7s; }
+        .card:nth-child(3) { animation-delay: 0.8s; }
+        .card:nth-child(4) { animation-delay: 0.9s; }
+
+        .card-icon {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-desc {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: gap 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 12px;
+            color: #a777e3;
+        }
+
+        /* 未来计划 */
+        .future-section {
+            margin: 60px 0 40px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 30px;
+            animation: fadeInUp 0.8s ease 1.0s both;
+        }
+
+        .future-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .future-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .future-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .future-item span {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .future-item p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        /* 底部 */
+        footer {
+            margin-top: 80px;
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .social-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #667eea;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            .subtitle { font-size: 1.1rem; }
+            .intro-card { padding: 30px 20px; }
+            .intro-card p { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    
+    <div class="container">
+        <header>
+            <h1>⚡ 模速空间</h1>
+            <div class="subtitle">
+                <span>Modsu Space</span> · 代码 · 创造 · 分享
+            </div>
+        </header>
+
+        <div class="intro-card">
+            <p>欢迎来到 <span class="highlight">Maxkore 的模速空间</span> —— 一个充满可能性的数字宇宙。</p>
+            <p>这里是技术探索的起点，也是创意落地的工坊。从博客到 Wiki，从文档到未来的各种实验，一切正在发生。</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">📝</div>
+                <div class="card-title">主博客</div>
+                <div class="card-desc">技术文章、学习笔记、编程心得、生活随笔。</div>
+                <a href="https://maxkore.bbroot.com" class="card-link" target="_blank" rel="noopener">探索博客 →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <div class="card-title">Wiki 知识库</div>
+                <div class="card-desc">Python、Linux、Git、Docker…系统化的知识整理。</div>
+                <a href="https://maxkore-wiki.bbroot.com" class="card-link" target="_blank" rel="noopener">进入知识库 →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📄</div>
+                <div class="card-title">文档站</div>
+                <div class="card-desc">项目文档、操作手册、技术说明书。</div>
+                <a href="https://docs.bbroot.com" class="card-link" target="_blank" rel="noopener">查看文档 →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🧪</div>
+                <div class="card-title">实验工坊</div>
+                <div class="card-desc">各种小玩意儿、特效、工具原型……</div>
+                <a href="#" class="card-link" style="opacity: 0.7;">筹备中</a>
+            </div>
+        </div>
+
+        <div class="future-section">
+            <div class="future-title">🔮 空间正在孵化</div>
+            <div class="future-grid">
+                <div class="future-item">
+                    <span>🛠️</span>
+                    <p>工具集 · 常用在线工具</p>
+                </div>
+                <div class="future-item">
+                    <span>🎨</span>
+                    <p>CSS 特效实验室</p>
+                </div>
+                <div class="future-item">
+                    <span>📊</span>
+                    <p>数据可视化作品</p>
+                </div>
+                <div class="future-item">
+                    <span>🤖</span>
+                    <p>AI 小应用</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 Maxkore · 模速空间 · 折腾不止</p>
+            <div class="social-links">
+                <a href="https://github.com/Maxkore-Geek" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://maxkore.bbroot.com" target="_blank" rel="noopener">博客</a>
+                <a href="mailto:maxkore@example.com">联系</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
